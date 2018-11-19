@@ -1,26 +1,22 @@
 <?php
 
     $url      = "http://137.117.47.67/otrs/rpc.pl";  // URL for OTRS server
-    $username = "jorge";  // SOAP username set in sysconfig
+    $username1 = "jorge";  // SOAP username set in sysconfig
     $password = "nitales";  // SOAP password set in sysconfig  
-
     $typeID = 1; // id from ticket_type table
     $queueID = 2; // id from queue table
     $priorityID = 1; // id from ticket_priority table
     $ownerID = 01; // id from users table
 
-
     // Form Fields(Your Ticket Form fields)
-
-    //$username = "Nitales";
-    //$queueID = 2;
-    $issue_type = "Hola";
-    $subject = "Jorge Nitales";
-    $title = $username.'-Issue With'.' '.$issue_type.' -'.$subject;
-    $description = "Hola bb que mas pues";
-    $category = "Esta";
-    //$priorityID = 1;
-
+    $username = $_POST['username_id'];
+    //$queueID = $_POST['queue'];
+    $issue_type = $_POST['issue_type'];
+    $subject = $_POST['subject'];
+    $title = $username.'-Problema con'.' '.$issue_type.' -'.$subject;
+    $description = $_POST['description'];
+    $category = $_POST['category'];
+    //$priorityID = $_POST['priority'];
 
     /// Initialize new client session
     $client = new SoapClient(
@@ -29,7 +25,7 @@
             'location'  => $url,
             'uri'       => "Core",
             'trace'     => 1,
-            'login'     => $username,
+            'login'     => $username1,
             'password'  => $password,
             'style'     => SOAP_RPC,
             'use'       => SOAP_ENCODED
@@ -38,7 +34,7 @@
 
     /// Create a new ticket shell. The function returns the Ticket ID     
     $TicketID = $client->__soapCall(
-        "Dispatch", array($username, $password,
+        "Dispatch", array($username1, $password,
             "TicketObject", "TicketCreate",
             "Title",        $title,
             "TypeID",   $typeID,
@@ -52,12 +48,11 @@
         )
     );
 
-
     //Esta hace falta repararla y queda gg pero de resto esta bueno asi
 
-    /// Create an article with the info. The function returns an Article ID ///
+    /// Create an article with the info. The function returns an Article ID
     /*$ArticleID = $client->__soapCall("Dispatch",
-        array($username, $password,
+        array($username1, $password,
             "TicketObject",   "ArticleCreate",
             "TicketID",       $TicketID,
             "ArticleType",    "webrequest",
@@ -82,7 +77,7 @@
 
     # Use the Ticket ID to retrieve the Ticket Number.
     $TicketNum = $client->__soapCall("Dispatch",
-        array($username, $password,
+        array($username1, $password,
             "TicketObject",   "TicketNumberLookup",
             "TicketID",       $TicketID,
         ));
@@ -91,16 +86,6 @@
     $big_integer = 1202400000;
     $Formatted_TicketNum = number_format($TicketNum, 0, '.', '');
 
-
     # Print the info to the screen.
-    echo "<html>\n";
-    echo "<head>\n";
-    echo "<title>Ticket Creado!</title>\n";
-    echo "</head>\n";
-    echo "<body>\n";
-    echo "<h1>Excelente!</h1>\n";
-    echo "<p>Numero de consulta del tiquete: $Formatted_TicketNum.</p>\n";
-    echo "</body>\n";
-    echo "</html>\n";
-
+    echo "Tickete numero: $Formatted_TicketNum";
 ?>
