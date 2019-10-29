@@ -1,7 +1,7 @@
 <?PHP
     error_reporting(E_ALL);
-    $url      = "http://172.105.22.206/otrs/nph-genericinterface.pl/Webservice/k/";
-    $username = "kevin";
+    $url      = "http://172.105.22.206/otrs/nph-genericinterface.pl/Webservice/Julianeitor/";
+    $username = "juliana";
     $password = "ZkIXwfabewFxouSR";
     
     //Parametros para la creacion del ticket
@@ -9,13 +9,13 @@
     //$queueID = $_POST['queue'];
     $issue_type = $_POST['issue_type'];
     $subject = $_POST['subject'];
-    $title = $usern.'-Problema con'.' '.$issue_type.' -'.$subject;
+    $title = $usern.'-Problema con'.' '.$issue_type.' - '.$subject;
     $description = $_POST['description'];
     $category = $_POST['category'];
 
     // Conexion con el servvicio SOAP
     $client = new SoapClient(null, array('location'  => $url,
-                                        'uri'       => "kevinEspacio",
+                                        'uri'       => "JulianaL",
                                         'trace'     => 1,
                                         'login'     => $username,
                                         'password'  => $password,
@@ -29,7 +29,7 @@
         "Lock" => "unlock",
         "PriorityID" => 2,
         "State" => "new",
-        "CustomerUser" => "kevin",
+        "CustomerUser" => "juliana",
         );
         
     // Data Articulo
