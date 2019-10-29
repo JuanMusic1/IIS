@@ -1,0 +1,59 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: Ticket Connector
+FrameworkVersion: 6.0.6
+Provider:
+  Operation:
+    Session::SessionCreate:
+      Description: ''
+      IncludeTicketData: ''
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionCreate
+    SessionCreate:
+      Description: Creates a Session
+      IncludeTicketData: ''
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionCreate
+    TicketCreate:
+      Description: Creates a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketCreate
+    TicketGet:
+      Description: Retrieve Ticket data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketGet
+    TicketSearch:
+      Description: Search for Tickets
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketSearch
+    TicketUpdate:
+      Description: Updates a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      AdditionalHeaders: ~
+      MaxLength: '100000000'
+      NameSpace: http://<URL>/otrs/TicketConnector
+      RequestNameFreeText: ''
+      RequestNameScheme: Plain
+      ResponseNameFreeText: ''
+      ResponseNameScheme: Plain
+      SOAPAction: Yes
+      SOAPActionFreeText: ''
+      SOAPActionScheme: NameSpaceSeparatorOperation
+      SOAPActionSeparator: '#'
+    Type: HTTP::SOAP
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: HTTP::SOAP
+
