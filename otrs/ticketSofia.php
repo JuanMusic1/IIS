@@ -3,9 +3,17 @@
     $url      = "http://172.105.22.206/otrs/nph-genericinterface.pl/Webservice/k/";
     $username = "kevin";
     $password = "ZkIXwfabewFxouSR";
-    $title    = "Soap listo!!!!";
+    
+    //Parametros para la creacion del ticket
+    $usern = $_POST['username_id'];
+    //$queueID = $_POST['queue'];
+    $issue_type = $_POST['issue_type'];
+    $subject = $_POST['subject'];
+    $title = $usern.'-Problema con'.' '.$issue_type.' -'.$subject;
+    $description = $_POST['description'];
+    $category = $_POST['category'];
 
-
+    // Conexion con el servvicio SOAP
     $client = new SoapClient(null, array('location'  => $url,
                                         'uri'       => "kevinEspacio",
                                         'trace'     => 1,
@@ -14,6 +22,7 @@
                                         'style'     => SOAP_RPC,
                                         'use'       => SOAP_ENCODED));
 
+    // Data ticket
     $data= array(
         "Title" => $title,
         "Queue" => "ColaEIA",
@@ -22,12 +31,15 @@
         "State" => "new",
         "CustomerUser" => "kevin",
         );
+        
+    // Data Articulo
     $data2= array(
         "Subject" => $title,
         "ContentType" => "text/plain; charset=ISO-8859-1",
-        "Body" => "funciona",
-        "AutoResponseType" => 'auto reply');
-
+        "Body" => $description,
+        "AutoResponseType" => 'auto reply');    
+        
+    // Crea tickete
     $TicketID = $client->TicketCreate(
         new SoapParam($username, "CustomerUserLogin"),
         new SoapParam($password, "Password"),
@@ -35,15 +47,11 @@
         new SoapParam($data2, "Article")
     );
 
-    var_dump($TicketID);
 
-    echo "<html>\n";
-    echo "<head>\n";
-    echo "</head>\n";
-    echo "<body>\n";
+    $big_integer = 1202400000;
+    $Formatted_TicketNum = number_format($TicketID["TicketNumber"], 0, '.', '');
 
-    echo "<p> Ticket id".$TicketID["TicketNumber"]." with article id ".$TicketID["TicketID"];
-    echo "</body>\n";
-    echo "</html>\n";
+    # Print the info to the screen.
+    echo "<p> Id del tickete: ".$Formatted_TicketNum." con articulo: ".$TicketID["TicketID"];
 
 ?>
